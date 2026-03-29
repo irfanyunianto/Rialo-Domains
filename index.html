@@ -1,147 +1,121 @@
-index.html 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rialo Domains</title>
-
+<title>RIALO Protocol</title>
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
-
 body {
-    background: radial-gradient(circle at top, #0f0f0f, #000);
-    color: white;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+  color: white;
+  text-align: center;
 }
 
-/* Card */
-.container {
-    width: 350px;
-    padding: 30px;
-    border-radius: 25px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(25px);
-    box-shadow: 0 0 60px rgba(255,0,200,0.2);
-    text-align: center;
-}
-
-/* LOGO */
 .logo {
-    width: 90px;
-    margin-bottom: 10px;
-    animation: spin 8s linear infinite;
-    filter: drop-shadow(0 0 15px #ff00c8);
+  width: 140px;
+  margin-top: 40px;
+  filter: drop-shadow(0 0 20px #00f7ff);
+  animation: glow 2s infinite alternate;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+@keyframes glow {
+  from { filter: drop-shadow(0 0 10px #00f7ff); }
+  to { filter: drop-shadow(0 0 30px #00f7ff); }
 }
 
-/* BRAND */
-.brand {
-    font-size: 20px;
-    font-weight: bold;
-    letter-spacing: 4px;
-    background: linear-gradient(90deg, #ff7a00, #ff00c8);
-    -webkit-background-clip: text;
-    color: transparent;
-    margin-bottom: 20px;
+h1 {
+  font-size: 40px;
+  margin-top: 20px;
 }
 
-/* INPUT */
-.input-box {
-    background: #111;
-    border-radius: 15px;
-    padding: 10px;
-    margin-bottom: 15px;
+button {
+  padding: 12px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #00f7ff;
+  color: black;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: white;
+}
+
+.card {
+  background: #111;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 15px;
+  width: 300px;
 }
 
 input {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background: transparent;
-    color: white;
-    outline: none;
+  padding: 10px;
+  width: 80%;
+  border-radius: 10px;
+  border: none;
+  margin-top: 10px;
 }
 
-/* BUTTON */
-.btn {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    border-radius: 15px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    background: linear-gradient(45deg, #ff7a00, #ff00c8);
-    color: white;
-    transition: 0.3s;
-}
-
-.btn:hover {
-    transform: scale(1.05);
-}
-
-/* Wallet */
-.wallet {
-    font-size: 12px;
-    color: #aaa;
-    margin-top: 10px;
-}
-
-/* Social */
 .links a {
-    display: block;
-    margin-top: 10px;
-    color: #aaa;
-    text-decoration: none;
-    font-size: 13px;
+  display: block;
+  color: #00f7ff;
+  margin: 5px;
+  text-decoration: none;
+}
+
+.brand a {
+  display: block;
+  color: #00f7ff;
+  margin-top: 10px;
+  font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- LOGO -->
+<img src="https://i.imgur.com/your-logo.png" class="logo">
 
-    <!-- LOGO -->
-    <img src="logo-rialo.png" class="logo">
-    <div class="brand">RIALO</div>
+<h1>Welcome to RIALO Protocol 🚀</h1>
+<p>Decentralized Domain & Faucet System powered by Web3</p>
 
-    <!-- DOMAIN INPUT -->
-    <div class="input-box">
-        <input type="text" id="domainInput" placeholder="Search domain...">
-    </div>
+<button onclick="connectWallet()">Connect MetaMask</button>
+<p id="wallet"></p>
 
-    <button class="btn" onclick="searchDomain()">Search Domain</button>
+<div class="card">
+  <h3>💧 Faucet</h3>
+  <button onclick="claimFaucet()">Claim RIALO</button>
+</div>
 
-    <button class="btn" onclick="connectWallet()">Connect Wallet</button>
+<div class="card">
+  <h3>🌐 RIALO Domains</h3>
+  <input type="text" id="domain" placeholder="yourname.rialo">
+  <br>
+  <button onclick="registerDomain()">Register</button>
+</div>
 
-    <!-- WALLET INFO -->
-    <div class="wallet" id="walletAddress">Not connected</div>
-    <div class="wallet" id="walletBalance"></div>
+<!-- BRAND ASSETS -->
+<div class="card brand">
+  <h3>🎨 Brand Assets</h3>
+  <p>Download official RIALO logos & media kit</p>
+  <a href="https://rialo.io/brand-assets" target="_blank">
+    Open Brand Assets
+  </a>
+</div>
 
-    <!-- LINKS -->
-    <div class="links">
-        <a href="https://x.com/RialoHQ">X (Twitter)</a>
-        <a href="https://t.me/rialoprotocol">Telegram</a>
-        <a href="https://discord.gg/rialoprotocol">Discord</a>
-    </div>
-
+<div class="card links">
+  <h3>🌍 Community</h3>
+  <a href="https://discord.gg/rialoprotocol" target="_blank">Discord</a>
+  <a href="https://t.me/rialoprotocol" target="_blank">Telegram</a>
+  <a href="https://x.com/RialoHQ" target="_blank">X (Twitter)</a>
 </div>
 
 <script>
@@ -149,34 +123,25 @@ let provider;
 let signer;
 
 async function connectWallet() {
-    if (window.ethereum) {
-        provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
-        signer = provider.getSigner();
-
-        const address = await signer.getAddress();
-        const balance = await provider.getBalance(address);
-
-        document.getElementById("walletAddress").innerText =
-            "Wallet: " + address.slice(0,6) + "..." + address.slice(-4);
-
-        document.getElementById("walletBalance").innerText =
-            "Balance: " + ethers.utils.formatEther(balance) + " ETH";
-    } else {
-        alert("Install MetaMask!");
-    }
+  if (window.ethereum) {
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    signer = provider.getSigner();
+    const address = await signer.getAddress();
+    document.getElementById("wallet").innerText = "Connected: " + address;
+  } else {
+    alert("Install MetaMask!");
+  }
 }
 
-function searchDomain() {
-    let domain = document.getElementById("domainInput").value;
+function claimFaucet() {
+  alert("You claimed RIALO tokens!");
+}
 
-    if (!domain) {
-        alert("Masukkan domain dulu!");
-        return;
-    }
-
-    let url = "https://monad.alldomains.id/buy-domain?domain=" + domain;
-    window.open(url, "_blank");
+function registerDomain() {
+  let domain = document.getElementById("domain").value;
+  if (!domain) return alert("Enter domain!");
+  alert("Domain " + domain + " registered!");
 }
 </script>
 
